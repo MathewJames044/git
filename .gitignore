@@ -1,0 +1,6 @@
+# .gitignore — sensitive files git mein mat daalo
+__pycache__/
+*.pyc
+.env
+*.xlsx
+~$*

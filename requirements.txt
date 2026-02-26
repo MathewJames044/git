@@ -1,0 +1,2 @@
+twilio==9.1.0
+schedule==1.2.2
