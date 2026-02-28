@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>90-Day Roadmap Notifier</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Roadmap Notifier</h1>
+            <p id="current-date"></p>
+        </header>
+
+        <section id="status-card" class="card">
+            <h2 id="week-focus">Loading...</h2>
+            <p id="role"></p>
+            <div class="progress-bar">
+                <div id="progress" style="width: 0%;"></div>
+            </div>
+            <p id="days-remaining"></p>
+        </section>
+
+        <section class="controls">
+            <button id="subscribe-btn" class="btn primary">Enable Notifications</button>
+            <button id="test-btn" class="btn secondary">Test Notification</button>
+        </section>
+
+        <section id="schedule" class="card">
+            <h3>Today's Focus:</h3>
+            <p id="backend-task"></p>
+        </section>
+
+        <footer id="install-banner" style="display: none;">
+            <p>Install this app on your home screen for better experience.</p>
+            <button id="install-btn">Install</button>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
