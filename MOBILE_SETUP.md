@@ -25,33 +25,31 @@ Jab page load ho jaye:
 
 ---
 
-## Method 2: Professional Live Hosting (Internet Par) 🌍
-*Fayda: Aap duniya mein kahin se bhi dekh sakte hain.*
-
-Hum **Render** ya **Railway** use karenge kyunki hamare paas `Procfile` pehle se ready hai.
+## Method 2: Professional Live Hosting (Railway.app) 🌍
+*Fayda: Aap duniya mein kahin se bhi dekh sakte hain. Railway fast aur easy hai.*
 
 ### Step 1: Account Setup
-1. [Render.com](https://render.com) par jayein aur GitHub se login karein.
-2. "New +" button par click karein aur **"Web Service"** select karein.
+1. [Railway.app](https://railway.app) par jayein aur GitHub se login karein.
+2. **"New Project"** par click karein.
+3. **"Deploy from GitHub repo"** select karein aur apni repo `MathewJames044/git` ko choose karein.
 
-### Step 2: Connect GitHub
-1. Apni repo `MathewJames044/git` ko connect karein.
-2. Ye settings check karein:
-   - **Runtime**: `Python`
-   - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT` (Ye hamare `Procfile` mein pehle se hai).
+### Step 2: Configuration
+1. Railway automatically aapki `Procfile` detect kar lega.
+2. **"Variables"** tab mein jayein aur ye 2 critical keys add karein (aapki `.env` file se):
+   - `VAPID_PUBLIC_KEY`
+   - `VAPID_PRIVATE_KEY`
 
-### Step 3: Add Environment Variables
-Render dashboard mein **"Environment"** tab par jayein aur ye 2 cheezain add karein (aapki `.env` file se):
-1. `VAPID_PUBLIC_KEY`
-2. `VAPID_PRIVATE_KEY`
+### Step 3: Domain Setup
+1. **"Settings"** tab mein jayein.
+2. **"Public Networking"** section mein "Generate Domain" par click karein.
+3. Railway aapko ek link dega (e.g., `git-production-xxxx.up.railway.app`).
 
 ### Step 4: Done!
-Render aapko ek URL dega (e.g., `https://roadmap-abc.onrender.com`). Ye URL aap kisi ko bhi bhej sakte hain aur apne mobile par 24/7 dekh sakte hain.
+Ye link ab aap apne mobile browser mein open kar sakte hain. Aapka backend logic, timeline, aur tracker sab live kaam karega!
 
 ---
 
 ### 💡 Pro Tip
-Agar aap chahte hain ke notifications bhi mobile par ayen, to hamesha **HTTPS** (Method 2) use karein, kyunki browsers security ki wajah se notifications sirf secure sites par allow karte hain.
+Agar aap chahte hain ke notifications bhi mobile par ayen, to hamesha Railway ka **HTTPS** link use karein. Chrome aur Safari sirf secure sites par hi notifications toggle karne dete hain.
 
-*Bhai, agar live deployment mein koi error aye to batana, main fix kar doon ga!*
+*Bhai, Railway par deploy karte waqt agar passphrase ya build error aye to batana!*
