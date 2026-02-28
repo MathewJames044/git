@@ -26,20 +26,23 @@ TWILIO_FROM          = os.environ.get("TWILIO_FROM", "whatsapp:+14155238886")
 YOUR_NUMBER          = os.environ.get("YOUR_NUMBER", "whatsapp:+923232371066")
 
 # Roadmap START date (YYYY, M, D)
-# Default is March 2nd, but can be overridden by SERVER_START_DATE env var
+# Default is TODAY (Feb 28), so it works immediately.
 env_start = os.environ.get("ROADMAP_START_DATE")
 if env_start:
     try:
         ROADMAP_START = datetime.datetime.strptime(env_start, "%Y-%m-%d").date()
     except ValueError:
-        ROADMAP_START = datetime.date(2026, 3, 2)
+        ROADMAP_START = datetime.date(2026, 2, 28)
 else:
-    ROADMAP_START = datetime.date(2026, 3, 2)
+    ROADMAP_START = datetime.date(2026, 2, 28)
+
+print(f"📅 Roadmap Start Date: {ROADMAP_START}")
 
 # Check if credentials exist
 if not TWILIO_ACCOUNT_SID or not TWILIO_AUTH_TOKEN:
     print("\n❌ ERROR: TWILIO_ACCOUNT_SID ya TWILIO_AUTH_TOKEN missing hai!")
-    print("   Local: Terminal mein set karein ya server dashboard use karein.")
+    print("   Note: Railway dashboard par 'Variables' tab mein inhein set karein.")
+    print("   Local testing ke liye terminal mein 'set TWILIO_ACCOUNT_SID=...' run karein.")
     sys.exit(1)
 
 # Initialize Client ONCE (Optimization)

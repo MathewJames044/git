@@ -6,7 +6,7 @@ from openpyxl.utils import get_column_letter
 # ─────────────────────────────────────────────────────────────────────────────
 # CONFIGURATION
 # ─────────────────────────────────────────────────────────────────────────────
-OUTPUT_PATH = r"C:\Users\Hp\OneDrive\Desktop\Roadmap\Roadmap.xlsx"
+OUTPUT_PATH = "Roadmap.xlsx"
 
 COLORS = {
     "header_bg":  "1A1A2E",
