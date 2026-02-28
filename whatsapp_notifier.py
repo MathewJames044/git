@@ -13,7 +13,12 @@ import sys
 import schedule
 import time
 import datetime
+import argparse # For custom messages
 from twilio.rest import Client
+from dotenv import load_dotenv # Load from .env file
+
+# Load environment variables from .env
+load_dotenv()
 
 # ─────────────────────────────────────────────────────────────────
 # ██  CONFIG — Environment Variables (Railway / Server)  ██
@@ -396,6 +401,17 @@ def setup_daily_schedule():
 # MAIN
 # ─────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
+    # Add CLI Argument Handling
+    parser = argparse.ArgumentParser(description="WhatsApp Roadmap & Manual Messenger")
+    parser.add_argument("--msg", help="Ek manual message bhejne ke liye")
+    args = parser.parse_args()
+
+    # If --msg is provided, just send and exit
+    if args.msg:
+        print(f"\n📨 Sending manual message: {args.msg}")
+        send_whatsapp(args.msg)
+        sys.exit(0)
+
     print("\n" + "="*55)
     print("  90-DAY ROADMAP — WHATSAPP NOTIFICATION SYSTEM")
     print("="*55)
