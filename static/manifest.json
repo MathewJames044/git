@@ -1,11 +1,12 @@
 {
-    "name": "90-Day Roadmap Notifier",
+    "name": "90-Day Backend Roadmap",
     "short_name": "Roadmap",
-    "description": "Daily reminders for your 90-day backend journey.",
+    "description": "Premium task tracking and notifications for your 90-day backend engineering journey.",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#1A1A2E",
+    "background_color": "#0B0F19",
+    "theme_color": "#6366F1",
+    "orientation": "portrait",
     "icons": [
         {
             "src": "/icons/icon-192x192.png",

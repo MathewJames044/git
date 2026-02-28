@@ -1,43 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>90-Day Roadmap Notifier</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>90-Day Roadmap Dashboard</title>
     <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <div class="container">
+        <!-- Header -->
         <header>
-            <h1>Roadmap Notifier</h1>
-            <p id="current-date"></p>
+            <div class="header-left">
+                <h1>🚀 90-Day Roadmap</h1>
+                <p id="current-date" class="date-text"></p>
+            </div>
+            <div class="header-right">
+                <div class="day-badge">
+                    <span id="header-day">—</span>
+                    <small>of 90</small>
+                </div>
+            </div>
         </header>
 
-        <section id="status-card" class="card">
-            <h2 id="week-focus">Loading...</h2>
-            <p id="role"></p>
-            <div class="progress-bar">
-                <div id="progress" style="width: 0%;"></div>
+        <!-- Week Overview Card -->
+        <section class="card week-card">
+            <div class="phase-tag" id="phase-tag">PHASE 1</div>
+            <h2 id="week-focus">Loading roadmap...</h2>
+            <p class="role-text" id="role"></p>
+            <div class="stats-row">
+                <div class="stat">
+                    <span class="stat-num" id="stat-week">—</span>
+                    <span class="stat-label">Week</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num" id="stat-day">—</span>
+                    <span class="stat-label">Day</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num" id="stat-dayname">—</span>
+                    <span class="stat-label">Today</span>
+                </div>
             </div>
-            <p id="days-remaining"></p>
+            <div class="progress-wrap">
+                <div class="progress-label">
+                    <span id="progress-label-left">✅ Overall Completion</span>
+                    <span id="progress-pct">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress" style="width:0%"></div>
+                </div>
+                <div class="progress-label" style="margin-top:6px">
+                    <span id="progress-label-right" style="font-size:0.68rem; color:#64748B">0/0 tasks</span>
+                </div>
+                <!-- Today's Sub Progress -->
+                <div id="today-progress-bar" style="display:none; margin-top:10px">
+                    <div class="progress-label" style="margin-bottom:4px">
+                        <span id="today-pct-text" style="font-size:0.72rem; color:#10B981; font-weight:600">Today: 0/0
+                            tasks</span>
+                    </div>
+                    <div class="progress-bar" style="height:5px; background:rgba(16,185,129,0.1)">
+                        <div id="today-progress"
+                            style="width:0%; height:100%; background:linear-gradient(to right,#10B981,#34D399); border-radius:4px; transition:width 0.5s ease">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section class="controls">
-            <button id="subscribe-btn" class="btn primary">Enable Notifications</button>
-            <button id="test-btn" class="btn secondary">Test Notification</button>
+        <!-- Today's Focus -->
+        <section class="card focus-card">
+            <h3 class="card-label">💻 Today's Backend Task</h3>
+            <p id="backend-task" class="task-text"></p>
+            <div class="milestone-box">
+                <span class="milestone-label">🏆 Week Milestone:</span>
+                <span id="milestone" class="milestone-text"></span>
+            </div>
+            <div class="audio-box">
+                <span class="audio-label">🎧 Audio Topic:</span>
+                <span id="audio-topic" class="audio-text"></span>
+            </div>
         </section>
 
-        <section id="schedule" class="card">
-            <h3>Today's Focus:</h3>
-            <p id="backend-task"></p>
+        <!-- Now / Next Cards -->
+        <section class="now-next-row">
+            <div class="now-card card">
+                <div class="nn-label">⚡ RIGHT NOW</div>
+                <div id="now-time" class="nn-time">—</div>
+                <div id="now-topic" class="nn-topic">—</div>
+                <div id="now-task" class="nn-task">—</div>
+            </div>
+            <div class="next-card card">
+                <div class="nn-label">⏭ NEXT UP</div>
+                <div id="next-time" class="nn-time">—</div>
+                <div id="next-topic" class="nn-topic">—</div>
+                <div id="next-task" class="nn-task">—</div>
+            </div>
         </section>
 
-        <footer id="install-banner" style="display: none;">
-            <p>Install this app on your home screen for better experience.</p>
+        <!-- Day Impact Card -->
+        <section class="card impact-card">
+            <div class="impact-header">
+                <span class="impact-icon">🎯</span>
+                <span class="impact-label">TODAY'S TOP IMPACT</span>
+            </div>
+            <div id="impact-task" class="impact-task">—</div>
+            <div id="impact-milestone" class="impact-milestone">—</div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="actions">
+            <button id="subscribe-btn" class="btn primary">🔔 Enable Notifications</button>
+            <button id="test-btn" class="btn secondary">📨 Test Push</button>
+        </section>
+        <section style="margin-bottom:16px">
+            <a href="/tracker.html"
+                style="display:block; padding:13px; background:linear-gradient(135deg,#10B981,#059669); color:white; border-radius:12px; font-weight:800; font-size:0.9rem; text-align:center; text-decoration:none; box-shadow:0 4px 14px rgba(16,185,129,0.3);">
+                📋 Track Today's Tasks &amp; View History →
+            </a>
+        </section>
+
+        <!-- Full Day Schedule with Timeline -->
+        <section class="card schedule-card">
+            <div class="schedule-header">
+                <h3 class="card-label">📅 Full Day Timeline</h3>
+                <span class="legend"><span class="dot done"></span>Done &nbsp;<span class="dot now"></span>Now
+                    &nbsp;<span class="dot upcoming"></span>Next</span>
+            </div>
+            <div id="schedule-list" class="schedule-list">
+                <p class="loading-text">Loading schedule...</p>
+            </div>
+        </section>
+
+        <!-- Install Banner -->
+        <div id="install-banner" class="install-banner" style="display:none">
+            <p>📱 Install this app on your Home Screen</p>
             <button id="install-btn">Install</button>
-        </footer>
+        </div>
     </div>
-    <script src="app.js"></script>
+
+    <script src="js/app.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Task Tracker — 90-Day Roadmap</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .tab-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            background: #1E293B;
+            color: #94A3B8;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #6366F1;
+            color: white;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+        }
+
+        /* Today's Tracker */
+        .tracker-header {
+            margin-bottom: 16px;
+        }
+
+        .tracker-header h2 {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .tracker-header p {
+            color: #94A3B8;
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        .score-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 14px 0;
+        }
+
+        .score-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #6366F1;
+            min-width: 44px;
+        }
+
+        .score-track {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(to right, #6366F1, #10B981);
+            border-radius: 4px;
+            transition: width 0.4s;
+        }
+
+        .task-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #1E293B;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .task-item:active {
+            transform: scale(0.98);
+        }
+
+        .task-item.done {
+            opacity: 0.5;
+            border-color: #10B981;
+        }
+
+        .task-item.done .task-item-title {
+            text-decoration: line-through;
+        }
+
+        .task-check {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid #475569;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            margin-top: 1px;
+        }
+
+        .task-item.done .task-check {
+            background: #10B981;
+            border-color: #10B981;
+        }
+
+        .task-check-icon {
+            color: white;
+            font-size: 0.75rem;
+            display: none;
+        }
+
+        .task-item.done .task-check-icon {
+            display: block;
+        }
+
+        .task-item-body {
+            flex: 1;
+        }
+
+        .task-item-time {
+            font-size: 0.65rem;
+            color: #64748B;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .task-item-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #F1F5F9;
+            line-height: 1.3;
+        }
+
+        .task-item-sub {
+            font-size: 0.73rem;
+            color: #94A3B8;
+            margin-top: 3px;
+            line-height: 1.3;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .badge-backend {
+            background: rgba(99, 102, 241, 0.2);
+            color: #818CF8;
+        }
+
+        .badge-uni {
+            background: rgba(245, 158, 11, 0.15);
+            color: #F59E0B;
+        }
+
+        .badge-office {
+            background: rgba(139, 92, 246, 0.15);
+            color: #A78BFA;
+        }
+
+        .badge-recovery {
+            background: rgba(56, 189, 248, 0.1);
+            color: #38BDF8;
+        }
+
+        .badge-reflect {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10B981;
+        }
+
+        .badge-other {
+            background: rgba(255, 255, 255, 0.06);
+            color: #64748B;
+        }
+
+        .notes-section {
+            margin-top: 16px;
+        }
+
+        .notes-section label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #94A3B8;
+            display: block;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .notes-input {
+            width: 100%;
+            background: #1E293B;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            color: #F1F5F9;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            padding: 12px;
+            resize: none;
+            min-height: 80px;
+        }
+
+        .notes-input::placeholder {
+            color: #475569;
+        }
+
+        .notes-input:focus {
+            outline: none;
+            border-color: #6366F1;
+        }
+
+        .save-btn-row {
+            margin-top: 14px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .save-btn {
+            flex: 2;
+            padding: 13px;
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .back-btn {
+            flex: 1;
+            padding: 13px;
+            background: #1E293B;
+            color: #94A3B8;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .save-msg {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #10B981;
+            margin-top: 8px;
+            display: none;
+        }
+
+        /* History Tab */
+        #history-tab {
+            display: none;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-day {
+            background: #1E293B;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .history-day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            cursor: pointer;
+        }
+
+        .history-day-left h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .history-day-left p {
+            font-size: 0.72rem;
+            color: #94A3B8;
+            margin-top: 2px;
+        }
+
+        .history-score {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .score-high {
+            color: #10B981;
+        }
+
+        .score-mid {
+            color: #F59E0B;
+        }
+
+        .score-low {
+            color: #F43F5E;
+        }
+
+        .history-day-detail {
+            display: none;
+            padding: 0 16px 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .history-day-detail.open {
+            display: block;
+        }
+
+        .completed-slot {
+            font-size: 0.78rem;
+            color: #94A3B8;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .completed-slot:last-child {
+            border-bottom: none;
+        }
+
+        .completed-slot.done-item {
+            color: #F1F5F9;
+        }
+
+        .completed-slot.done-item::before {
+            content: '✅ ';
+        }
+
+        .completed-slot.missed-item::before {
+            content: '⬜ ';
+            opacity: 0.5;
+        }
+
+        .history-notes {
+            font-size: 0.78rem;
+            color: #64748B;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .empty-history {
+            text-align: center;
+            padding: 40px 20px;
+            color: #475569;
+        }
+
+        .empty-history p {
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>📋 Task Tracker</h1>
+                <p id="tracker-date" class="date-text"></p>
+            </div>
+            <a href="/" class="day-badge" style="text-decoration:none">
+                <span style="font-size:1.1rem">🏠</span>
+                <small>Home</small>
+            </a>
+        </header>
+
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+            <button class="tab-btn active" id="tab-today" onclick="switchTab('today')">✅ Today</button>
+            <button class="tab-btn" id="tab-history" onclick="switchTab('history')">📅 History</button>
+        </div>
+
+        <!-- TODAY TAB -->
+        <div id="today-tab">
+            <div class="tracker-header card">
+                <h2 id="today-heading">Today's Tracker</h2>
+                <p id="today-sub">Tap tasks to mark them done</p>
+                <div class="score-bar">
+                    <span class="score-text" id="score-text">0%</span>
+                    <div class="score-track">
+                        <div class="score-fill" id="score-fill" style="width: 0%"></div>
+                    </div>
+                    <span style="font-size:0.75rem; color:#94A3B8" id="score-count">0/0 done</span>
+                </div>
+            </div>
+
+            <div class="task-checklist" id="task-checklist">
+                <p class="loading-text">Loading tasks…</p>
+            </div>
+
+            <div class="notes-section card" style="margin-top:16px; padding-top:14px">
+                <label>📝 Daily Notes / Reflections</label>
+                <textarea class="notes-input" id="daily-notes"
+                    placeholder="Aaj kya seekha? Koi roadblock? Kal ke liye plan?"></textarea>
+            </div>
+
+            <div class="save-btn-row">
+                <button class="save-btn" onclick="saveLog()">💾 Save Progress</button>
+                <a href="/" class="back-btn">🏠 Dashboard</a>
+            </div>
+            <p class="save-msg" id="save-msg">✅ Saved successfully!</p>
+        </div>
+
+        <!-- HISTORY TAB -->
+        <div id="history-tab">
+            <div id="history-list" class="history-list">
+                <div class="empty-history">
+                    <div style="font-size:2rem">📅</div>
+                    <p>Koi history nahi mili.<br>Aaj ka progress save karo!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let todaySlots = [];
+        let completed = new Set();
+        const todayStr = new Date().toISOString().split('T')[0];
+
+        document.getElementById('tracker-date').innerText = new Date().toLocaleDateString('en-PK', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+
+        const CAT_BADGE = {
+            backend: 'badge-backend', uni: 'badge-uni', office: 'badge-office',
+            reflect: 'badge-reflect', recovery: 'badge-recovery'
+        };
+
+        function switchTab(tab) {
+            document.getElementById('today-tab').style.display = tab === 'today' ? 'block' : 'none';
+            document.getElementById('history-tab').style.display = tab === 'history' ? 'block' : 'none';
+            document.getElementById('tab-today').classList.toggle('active', tab === 'today');
+            document.getElementById('tab-history').classList.toggle('active', tab === 'history');
+            if (tab === 'history') loadHistory();
+        }
+
+        function updateScore() {
+            const total = todaySlots.length;
+            const done = completed.size;
+            const pct = total ? Math.round((done / total) * 100) : 0;
+            document.getElementById('score-text').innerText = pct + '%';
+            document.getElementById('score-fill').style.width = pct + '%';
+            document.getElementById('score-count').innerText = `${done}/${total} done`;
+        }
+
+        function toggleTask(idx) {
+            if (completed.has(idx)) completed.delete(idx);
+            else completed.add(idx);
+            renderChecklist();
+            updateScore();
+        }
+
+        function renderChecklist() {
+            const list = document.getElementById('task-checklist');
+            if (!todaySlots.length) { list.innerHTML = '<p class="loading-text">No tasks found.</p>'; return; }
+
+            // Filter out sleep slots for tracker
+            const trackable = todaySlots.filter(s => s.category !== 'sleep');
+
+            list.innerHTML = trackable.map((slot, i) => {
+                const isDone = completed.has(i);
+                const badgeCls = CAT_BADGE[slot.category] || 'badge-other';
+                const icon = { backend: '💻', uni: '🎓', office: '💼', travel: '🎧', recovery: '🌿', reflect: '🌟', planning: '🗓', wind_down: '📚', milestone: '🏆', break: '☕' }[slot.category] || '📌';
+                return `
+                <div class="task-item ${isDone ? 'done' : ''}" onclick="toggleTask(${i})">
+                    <div class="task-check">
+                        <span class="task-check-icon">✓</span>
+                    </div>
+                    <div class="task-item-body">
+                        <div class="task-item-time">${slot.time}</div>
+                        <div class="task-item-title">${slot.topic}</div>
+                        <div class="task-item-sub">${slot.task}</div>
+                        <span class="badge ${badgeCls}">${icon} ${slot.category}</span>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        async function loadTodayData() {
+            try {
+                const [tdRes, logRes] = await Promise.all([
+                    fetch('/api/today'),
+                    fetch(`/api/log/${todayStr}`)
+                ]);
+                const [data, savedLog] = await Promise.all([tdRes.json(), logRes.json()]);
+
+                if (data && data.week) {
+                    document.getElementById('today-heading').innerText = `Day ${data.abs_day} — ${data.day_name}`;
+                    document.getElementById('today-sub').innerText = `Week ${data.week}: ${data.week_focus}`;
+                    todaySlots = (data.schedule || []).filter(s => s.category !== 'sleep');
+                }
+
+                // Restore saved log
+                if (savedLog.completed) {
+                    savedLog.completed.forEach(i => completed.add(i));
+                }
+                if (savedLog.notes) {
+                    document.getElementById('daily-notes').value = savedLog.notes;
+                }
+
+                renderChecklist();
+                updateScore();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function saveLog() {
+            const notes = document.getElementById('daily-notes').value;
+            await fetch('/api/log', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ date: todayStr, completed: [...completed], notes })
+            });
+            const msg = document.getElementById('save-msg');
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 3000);
+        }
+
+        async function loadHistory() {
+            try {
+                const res = await fetch('/api/history');
+                const history = await res.json();
+                const list = document.getElementById('history-list');
+
+                if (!history.length) {
+                    list.innerHTML = `<div class="empty-history"><div style="font-size:2rem">📅</div><p>Koi history nahi mili.<br>Aaj ka progress save karo!</p></div>`;
+                    return;
+                }
+
+                // For each history day, fetch the full schedule to show slots
+                list.innerHTML = history.map(day => {
+                    const pct = Math.round((day.completed_count / Math.max(day.completed_count + 1, 1)) * 100);
+                    const scoreClass = day.completed_count >= 8 ? 'score-high' : day.completed_count >= 4 ? 'score-mid' : 'score-low';
+                    const stars = '⭐'.repeat(Math.min(Math.floor(day.completed_count / 3), 5)) || '—';
+                    return `
+                    <div class="history-day" id="hday-${day.date}">
+                        <div class="history-day-header" onclick="toggleHistoryDay('${day.date}')">
+                            <div class="history-day-left">
+                                <h3>Day ${day.abs_day} — ${day.day_name}</h3>
+                                <p>Week ${day.week} | ${day.date}</p>
+                            </div>
+                            <div class="history-score ${scoreClass}">
+                                ${day.completed_count} ✅ ${stars}
+                            </div>
+                        </div>
+                        <div class="history-day-detail" id="detail-${day.date}">
+                            <p style="font-size:0.72rem; color:#64748B; margin: 10px 0 6px;">Tasks done: ${day.completed.join(', ') || 'none'}</p>
+                            ${day.notes ? `<div class="history-notes">"${day.notes}"</div>` : ''}
+                        </div>
+                    </div>`;
+                }).join('');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function toggleHistoryDay(date) {
+            const el = document.getElementById(`detail-${date}`);
+            el.classList.toggle('open');
+        }
+
+        loadTodayData();
+    </script>
+</body>
+
+</html>
